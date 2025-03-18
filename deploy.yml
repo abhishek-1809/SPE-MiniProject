@@ -1,27 +1,32 @@
 ---
 - name: Pull Docker Image from Docker Hub
   hosts: localhost
-  remote_user: abhishek
+  remote_user: roshan
   become: false
   tasks:
+    - name: Install Python Docker SDK
+      pip:
+        name: docker
+        executable: pip3
+
     - name: Pull Docker Image
-      docker_image:
-        name: "abhi297/calculator"
+      community.docker.docker_image:
+        name: "iiitbroshan/calculator"
         source: pull
       register: docker_pull_result
 
     - name: Display Docker Pull Result
       debug:
         var: docker_pull_result
-        
+
     - name: Start Docker service
       service:
         name: docker
         state: started
 
-    - name: Remove existing container if running
+    - name: Stop existing container (if running)
       command: docker rm -f calculator
       ignore_errors: yes
-        
+
     - name: Running container
-      shell: docker run -it -d --name calculator abhi297/calculator /bin/bash
+      shell: docker run -it -d --name calculator iiitbroshan/calculator /bin/bash
