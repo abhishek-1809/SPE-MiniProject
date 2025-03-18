@@ -19,9 +19,14 @@
         name: docker
         state: started
         
-    - name: Stop existing container (if running)
-      shell: docker rm -f -v calculator
+    - name: Check if container is already running
+      command: docker ps -q -f name=calculator
+      register: container_status
       ignore_errors: yes
+
+    - name: Remove existing container if running
+      shell: docker rm -f calculator
+      when: container_status.stdout != ""
         
     - name: Running container
       shell: docker run -it -d --name calculator abhi297/calculator /bin/bash
