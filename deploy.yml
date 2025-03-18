@@ -20,7 +20,7 @@
         state: started
         
     - name: Stop existing container (if running)
-      shell: docker rm -f calculator
+      shell: docker rm -f -v calculator
       ignore_errors: yes
         
     - name: Running container
