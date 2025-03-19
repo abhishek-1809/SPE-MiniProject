@@ -4,11 +4,6 @@
   remote_user: abhishek
   become: false
   tasks:
-    - name: Install Python Docker SDK
-      pip:
-        name: docker
-        executable: pip3
-
     - name: Pull Docker Image
       community.docker.docker_image:
         name: "abhi297/calculator"
